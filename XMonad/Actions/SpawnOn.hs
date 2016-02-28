@@ -116,6 +116,7 @@ manageSpawnWithGC garbageCollect = do
                                 , let mpid = lookup ppid pids
                                 , isJust mpid
                                 , let (Just mh) = mpid ]
+    trace $ printf "parents of PID %s: %s, found %d handlers in pids: %s" (show mp) (show ppid_chain) (length known_window_handlers) (show $ map fst pids)
     case known_window_handlers of
         [] -> idHook
         (mh:_)  -> do
@@ -153,6 +154,7 @@ spawnOn ws cmd = spawnAndDo (doShift ws) cmd
 spawnAndDo :: ManageHook -> String -> X ()
 spawnAndDo mh cmd = do
     p <- spawnPID $ mangle cmd
+    trace $ printf "adding PID %s: %s" (show p) cmd
     modifySpawner $ ((p,mh) :)
  where
     -- TODO this is silly, search for a better solution
