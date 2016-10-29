@@ -33,6 +33,7 @@ module XMonad.Layout.Fullscreen
 import XMonad
 import XMonad.Layout.LayoutModifier
 import XMonad.Util.WindowProperties
+import XMonad.Hooks.EwmhDesktops (fullscreenStartup)
 import XMonad.Hooks.ManageHelpers (isFullscreen)
 import qualified XMonad.StackSet as W
 import Data.List
@@ -75,7 +76,8 @@ fullscreenSupport :: LayoutClass l Window =>
 fullscreenSupport c = c {
     layoutHook = fullscreenFull $ layoutHook c,
     handleEventHook = handleEventHook c <+> fullscreenEventHook,
-    manageHook = manageHook c <+> fullscreenManageHook
+    manageHook = manageHook c <+> fullscreenManageHook,
+    startupHook = startupHook c <+> fullscreenStartup
   }
 
 -- | Messages that control the fullscreen state of the window.
