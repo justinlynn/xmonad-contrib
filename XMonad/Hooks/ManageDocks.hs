@@ -317,9 +317,8 @@ instance LayoutModifier AvoidStruts a where
 setWorkarea :: Rectangle -> X ()
 setWorkarea (Rectangle x y w h) = withDisplay $ \dpy -> do
     a <- getAtom "_NET_WORKAREA"
-    c <- getAtom "CARDINAL"
     r <- asks theRoot
-    io $ changeProperty32 dpy r a c propModeReplace [fi x, fi y, fi w, fi h]
+    io $ changeProperty32 dpy r a cARDINAL propModeReplace [fi x, fi y, fi w, fi h]
 
 
 -- | (Direction, height\/width, initial pixel, final pixel).
