@@ -87,8 +87,10 @@ ewmhDesktopsLogHookCustom f = withWindowSet $ \s -> do
     let wins =  nub . concatMap (maybe [] (\(W.Stack x l r)-> reverse l ++ r ++ [x]) . W.stack) $ ws
     setClientList wins
 
-    -- Current desktop
-    case (elemIndex (W.currentTag s) $ map W.tag ws) of
+    -- Remap the current workspace to handle any renames that f might be doing.
+    let maybeCurrent = W.tag <$> listToMaybe (f [W.workspace $ W.current s])
+    case join (flip elemIndex (map W.tag ws) <$> maybeCurrent) of
+      -- Set Current Desktop
       Nothing -> return ()
       Just curr -> do
         setCurrentDesktop curr
