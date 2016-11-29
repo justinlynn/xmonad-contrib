@@ -124,7 +124,7 @@ withLastMinimized action = withLastMinimized' (flip whenJust action)
 withLastMinimized' :: (Maybe Window -> X()) -> X()
 withLastMinimized' action = withMinimized (action . listToMaybe)
 
-withMinimized :: ([Window] -> X()) -> X()
+withMinimized :: ([Window] -> X a) -> X a
 withMinimized action = do
   minimized <- XS.gets minimizedStack
   currentStack <- withWindowSet $ return . W.index
