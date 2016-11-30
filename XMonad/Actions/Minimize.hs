@@ -29,6 +29,7 @@ module XMonad.Actions.Minimize
   , maximizeWindowAndFocus
   , withLastMinimized
   , withLastMinimized'
+  , withMinimized
   ) where
 
 import XMonad
