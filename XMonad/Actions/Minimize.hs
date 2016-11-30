@@ -29,6 +29,7 @@ module XMonad.Actions.Minimize
   , maximizeWindowAndFocus
   , withLastMinimized
   , withLastMinimized'
+  , withMinimized
   ) where
 
 import XMonad
@@ -117,13 +118,15 @@ maximizeWindowAndFocus = maximizeWindowAndChangeWSet W.focusWindow
 -- | Perform an action with last minimized window on current workspace
 --   or do nothing if there is no minimized windows on current workspace
 withLastMinimized :: (Window -> X ()) -> X ()
-withLastMinimized action = withLastMinimized' (`whenJust` action)
+withLastMinimized action = withLastMinimized' (flip whenJust action)
 
 -- | Like withLastMinimized but the provided action is always invoked with a
 --   'Maybe Window', that will be nothing if there is no last minimized window.
-withLastMinimized' :: (Maybe Window -> X()) -> X()
-withLastMinimized' action = do
+withLastMinimized' :: (Maybe Window -> X ()) -> X ()
+withLastMinimized' action = withMinimized (action . listToMaybe)
+
+withMinimized :: ([Window] -> X a) -> X a
+withMinimized action = do
   minimized <- XS.gets minimizedStack
   currentStack <- withWindowSet $ return . W.index
-  let maybeLastMinimized = listToMaybe $ minimized `L.intersect` currentStack
-  action maybeLastMinimized
+  action $ minimized `L.intersect` currentStack
