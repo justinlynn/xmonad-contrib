@@ -121,7 +121,7 @@ withLastMinimized action = withLastMinimized' (flip whenJust action)
 
 -- | Like withLastMinimized but the provided action is always invoked with a
 --   'Maybe Window', that will be nothing if there is no last minimized window.
-withLastMinimized' :: (Maybe Window -> X()) -> X()
+withLastMinimized' :: (Maybe Window -> X ()) -> X ()
 withLastMinimized' action = withMinimized (action . listToMaybe)
 
 withMinimized :: ([Window] -> X a) -> X a
