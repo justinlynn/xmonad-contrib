@@ -57,6 +57,10 @@
       The project itself was already being deleted, this just deletes
       the workspace created for it as well.
 
+  * `XMonad.Actions.WorkspaceNames` and `XMonad.Hooks.EwmhDesktops`
+
+    Support for workspace names was added to the EwmhDesktops module.
+
 ## 0.12 (December 14, 2015)
 
 ### Breaking Changes
